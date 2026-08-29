@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conversor de Temperaturas</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- FontAwesome para los iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <header class="app-header">
+            <i class="fa-solid fa-temperature-half header-icon" id="status-icon"></i>
+            <h1>Conversor de Temperaturas</h1>
+            <p>Convierte fácilmente entre Celsius, Fahrenheit y Kelvin.</p>
+        </header>
+
+        <div class="converter-card">
+            <div class="input-group">
+                <label for="temperature-input">Temperatura a convertir</label>
+                <div class="input-wrapper">
+                    <i class="fa-solid fa-calculator input-icon"></i>
+                    <input type="number" id="temperature-input" placeholder="Ingresa un valor numérico" step="any">
+                </div>
+                <small id="error-message" class="error-text"></small>
+            </div>
+
+            <div class="units-container">
+                <div class="unit-group">
+                    <label for="from-unit">De:</label>
+                    <select id="from-unit">
+                        <option value="C">Celsius (°C)</option>
+                        <option value="F">Fahrenheit (°F)</option>
+                        <option value="K">Kelvin (K)</option>
+                    </select>
+                </div>
+
+                <button class="swap-btn" id="swap-btn" title="Intercambiar unidades">
+                    <i class="fa-solid fa-right-left"></i>
+                </button>
+
+                <div class="unit-group">
+                    <label for="to-unit">A:</label>
+                    <select id="to-unit">
+                        <option value="F">Fahrenheit (°F)</option>
+                        <option value="C">Celsius (°C)</option>
+                        <option value="K">Kelvin (K)</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="actions-container">
+                <button class="btn btn-secondary" id="clear-btn">
+                    <i class="fa-solid fa-trash-can"></i> Limpiar
+                </button>
+                <button class="btn btn-primary" id="convert-btn">
+                    <i class="fa-solid fa-arrows-rotate"></i> Convertir
+                </button>
+            </div>
+
+            <div class="result-container" id="result-container">
+                <p class="result-label">Resultado:</p>
+                <h2 id="result-text">--</h2>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
