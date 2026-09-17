@@ -1,71 +1,64 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Conversor de Temperaturas</title>
-    <link rel="stylesheet" href="styles.css">
-    <!-- FontAwesome para los iconos -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Aplicación educativa para convertir temperaturas entre Celsius, Fahrenheit y Kelvin.">
+  <title>Laboratorio de Temperaturas</title>
+  <style>
+    :root{--azul:#1976d2;--oscuro:#12304a;--naranja:#f97316;--blanco:#fff;--gris:#526273;--borde:#d7e0e8;--error:#b42318;--sombra:0 18px 50px rgba(14,52,84,.18)}
+    *{box-sizing:border-box} html{scroll-behavior:smooth}
+    body{min-height:100vh;margin:0;font-family:Inter,"Segoe UI",Roboto,Arial,sans-serif;color:var(--oscuro);background:radial-gradient(circle at 12% 18%,rgba(255,255,255,.34),transparent 30%),radial-gradient(circle at 87% 80%,rgba(255,176,103,.38),transparent 30%),linear-gradient(135deg,#0d76b8 0%,#4ca9de 43%,#ffc46b 100%)}
+    button,input,select{font:inherit} button{touch-action:manipulation}.pagina{min-height:100vh;display:grid;place-items:center;padding:32px 18px}.app{width:min(100%,920px)}
+    .encabezado{text-align:center;color:#fff;margin-bottom:20px;text-shadow:0 3px 15px rgba(0,31,61,.25)}.insignia{display:inline-flex;align-items:center;gap:8px;padding:7px 13px;margin-bottom:10px;border:1px solid rgba(255,255,255,.5);border-radius:999px;background:rgba(255,255,255,.18);font-size:.82rem;font-weight:700;text-transform:uppercase}.encabezado h1{margin:0;font-size:clamp(2rem,5vw,3.5rem);line-height:1.05}.encabezado p{max-width:640px;margin:12px auto 0;line-height:1.55}
+    .tarjeta{padding:clamp(20px,4vw,38px);border:1px solid rgba(255,255,255,.65);border-radius:26px;background:rgba(255,255,255,.95);box-shadow:var(--sombra)}h2{margin:0 0 8px}.intro{margin:0 0 24px;color:var(--gris);line-height:1.5}.grupo{display:flex;flex-direction:column;gap:8px}.grupo label,.etiqueta{font-weight:750;color:#24455f}.ayuda{color:var(--gris);font-size:.84rem}
+    input,select{width:100%;min-height:52px;padding:12px 14px;border:2px solid var(--borde);border-radius:13px;color:var(--oscuro);background:#fff;outline:none;transition:.18s ease}input:hover,select:hover{border-color:#a9c4d9}input:focus,select:focus{border-color:var(--azul);box-shadow:0 0 0 4px rgba(25,118,210,.1)}button:focus-visible{outline:3px solid rgba(25,118,210,.3);outline-offset:2px}input[aria-invalid="true"]{border-color:var(--error);background:#fffafa}
+    .unidades{display:grid;grid-template-columns:1fr auto 1fr;gap:14px;align-items:end;margin-top:18px}.intercambiar{width:52px;height:52px;display:grid;place-items:center;border:0;border-radius:50%;color:#fff;background:var(--azul);box-shadow:0 8px 18px rgba(25,118,210,.25);cursor:pointer;transition:.18s ease}.intercambiar:hover{transform:translateY(-2px) rotate(8deg);background:#0d63b5}.intercambiar svg{width:24px;height:24px;fill:currentColor}
+    .ejemplos{margin-top:22px}.lista-ejemplos{display:flex;flex-wrap:wrap;gap:9px;margin-top:10px}.ejemplo{padding:8px 14px;border:1px solid #b7d8ef;border-radius:999px;color:#075985;background:#e9f5ff;font-weight:700;cursor:pointer;transition:.18s ease}.ejemplo:hover{transform:translateY(-2px);background:#d8eeff;border-color:var(--azul)}
+    .acciones{display:grid;grid-template-columns:1fr auto;gap:12px;margin-top:24px}.boton{min-height:52px;padding:12px 20px;border:0;border-radius:13px;font-weight:800;cursor:pointer;transition:.18s ease}.boton:hover{transform:translateY(-2px)}.principal{color:#fff;background:linear-gradient(135deg,#0b72c8,#07548f);box-shadow:0 10px 22px rgba(10,99,167,.25)}.secundario{border:2px solid var(--borde);color:#39566d;background:#f5f8fa}
+    .error{display:none;gap:10px;margin-top:18px;padding:13px 15px;border:1px solid #f4b4af;border-radius:12px;color:var(--error);background:#fff1f0;font-weight:650;line-height:1.45}.error.visible{display:flex;animation:entrada .22s ease-out}
+    .resultado{display:none;position:relative;overflow:hidden;margin-top:24px;padding:clamp(20px,4vw,30px);border:1px solid transparent;border-radius:20px}.resultado.visible{display:block;animation:aparecer .35s ease-out}.resultado.frio{border-color:#80c7f2;color:#064b76;background:linear-gradient(135deg,#e1f5ff,#f5fcff)}.resultado.templado{border-color:#80d5ab;color:#075c3b;background:linear-gradient(135deg,#e5fff1,#f7fffa)}.resultado.caliente{border-color:#faa66b;color:#8b3308;background:linear-gradient(135deg,#fff0df,#fff9f1)}
+    .estado{display:inline-flex;padding:6px 11px;margin-bottom:13px;border:1px solid currentColor;border-radius:999px;font-size:.79rem;font-weight:850;text-transform:uppercase}.comparacion{display:flex;flex-wrap:wrap;align-items:center;gap:12px}.valor{font-size:clamp(1.55rem,5vw,2.65rem);font-weight:850}.igual{font-size:1.8rem;opacity:.65}.convertido{text-decoration:underline 4px;text-underline-offset:7px}.explicacion{margin-top:22px;padding:17px;border-radius:14px;background:rgba(255,255,255,.66)}.explicacion h3{margin:0 0 10px;font-size:1rem}.formula{display:block;overflow-x:auto;padding:11px 13px;border-radius:9px;color:var(--oscuro);background:rgba(255,255,255,.82);font-family:Consolas,monospace;font-weight:750;white-space:nowrap}.calculo{margin:11px 0 0;color:#324b5e;line-height:1.55}.nota{margin:22px 0 0;padding-top:18px;border-top:1px solid var(--borde);color:var(--gris);font-size:.9rem;line-height:1.55}.pie{margin-top:16px;color:#fff;text-align:center;font-size:.84rem}
+    @keyframes aparecer{from{opacity:0;transform:translateY(12px) scale(.98)}to{opacity:1;transform:none}}@keyframes entrada{from{opacity:0;transform:translateY(-5px)}to{opacity:1;transform:none}}
+    @media(max-width:640px){.pagina{align-items:start;padding:22px 12px}.tarjeta{border-radius:20px}.unidades{grid-template-columns:1fr}.intercambiar{justify-self:center;transform:rotate(90deg)}.acciones{grid-template-columns:1fr}.comparacion{align-items:flex-start;flex-direction:column}.igual{line-height:.8}}
+    @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:1ms!important;transition-duration:1ms!important;scroll-behavior:auto!important}}
+  </style>
 </head>
 <body>
-    <div class="app-container">
-        <header class="app-header">
-            <i class="fa-solid fa-temperature-half header-icon" id="status-icon"></i>
-            <h1>Conversor de Temperaturas</h1>
-            <p>Convierte fácilmente entre Celsius, Fahrenheit y Kelvin.</p>
-        </header>
-
-        <div class="converter-card">
-            <div class="input-group">
-                <label for="temperature-input">Temperatura a convertir</label>
-                <div class="input-wrapper">
-                    <i class="fa-solid fa-calculator input-icon"></i>
-                    <input type="number" id="temperature-input" placeholder="Ingresa un valor numérico" step="any">
-                </div>
-                <small id="error-message" class="error-text"></small>
-            </div>
-
-            <div class="units-container">
-                <div class="unit-group">
-                    <label for="from-unit">De:</label>
-                    <select id="from-unit">
-                        <option value="C">Celsius (°C)</option>
-                        <option value="F">Fahrenheit (°F)</option>
-                        <option value="K">Kelvin (K)</option>
-                    </select>
-                </div>
-
-                <button class="swap-btn" id="swap-btn" title="Intercambiar unidades">
-                    <i class="fa-solid fa-right-left"></i>
-                </button>
-
-                <div class="unit-group">
-                    <label for="to-unit">A:</label>
-                    <select id="to-unit">
-                        <option value="F">Fahrenheit (°F)</option>
-                        <option value="C">Celsius (°C)</option>
-                        <option value="K">Kelvin (K)</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="actions-container">
-                <button class="btn btn-secondary" id="clear-btn">
-                    <i class="fa-solid fa-trash-can"></i> Limpiar
-                </button>
-                <button class="btn btn-primary" id="convert-btn">
-                    <i class="fa-solid fa-arrows-rotate"></i> Convertir
-                </button>
-            </div>
-
-            <div class="result-container" id="result-container">
-                <p class="result-label">Resultado:</p>
-                <h2 id="result-text">--</h2>
-            </div>
-        </div>
-    </div>
-
-    <script src="script.js"></script>
+<main class="pagina"><div class="app">
+  <header class="encabezado"><div class="insignia"><span aria-hidden="true">🌡️</span> Laboratorio educativo</div><h1>Conversor de temperaturas</h1><p>Convierte valores entre Celsius, Fahrenheit y Kelvin, mientras aprendes la fórmula utilizada.</p></header>
+  <section class="tarjeta" aria-labelledby="titulo"><h2 id="titulo">Realiza una conversión</h2><p class="intro">Ingresa una temperatura, elige las unidades y observa paso a paso cómo se obtiene el resultado.</p>
+    <form id="formulario" novalidate>
+      <div class="grupo"><label for="temperatura">Temperatura que deseas convertir</label><input type="text" id="temperatura" inputmode="decimal" autocomplete="off" placeholder="Ejemplo: 25 o 273,15" aria-describedby="ayuda error" required><span class="ayuda" id="ayuda">Puedes utilizar punto o coma como separador decimal.</span></div>
+      <div class="unidades">
+        <div class="grupo"><label for="origen">Unidad de origen</label><select id="origen"><option value="celsius">Celsius, °C</option><option value="fahrenheit">Fahrenheit, °F</option><option value="kelvin">Kelvin, K</option></select></div>
+        <button type="button" class="intercambiar" id="intercambiar" aria-label="Intercambiar las unidades" title="Intercambiar unidades"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7.4 7H18l-2.3-2.3 1.4-1.4L21.8 8l-4.7 4.7-1.4-1.4L18 9H7.4a3.4 3.4 0 0 0 0 6.8H9v2H7.4a5.4 5.4 0 1 1 0-10.8Zm9.2 10H6l2.3 2.3-1.4 1.4L2.2 16l4.7-4.7 1.4 1.4L6 15h10.6a3.4 3.4 0 0 0 0-6.8H15v-2h1.6a5.4 5.4 0 1 1 0 10.8Z"/></svg></button>
+        <div class="grupo"><label for="destino">Unidad de destino</label><select id="destino"><option value="fahrenheit">Fahrenheit, °F</option><option value="celsius">Celsius, °C</option><option value="kelvin">Kelvin, K</option></select></div>
+      </div>
+      <div class="ejemplos"><span class="etiqueta">Prueba un ejemplo rápido:</span><div class="lista-ejemplos"><button type="button" class="ejemplo" data-valor="0" data-unidad="celsius">0 °C</button><button type="button" class="ejemplo" data-valor="100" data-unidad="celsius">100 °C</button><button type="button" class="ejemplo" data-valor="273.15" data-unidad="kelvin">273,15 K</button></div></div>
+      <div class="error" id="error" role="alert" aria-live="assertive"><span>⚠️</span><span id="textoError"></span></div>
+      <div class="acciones"><button type="submit" class="boton principal">Convertir temperatura</button><button type="button" class="boton secundario" id="limpiar">Limpiar</button></div>
+    </form>
+    <section class="resultado" id="resultado" aria-live="polite" aria-atomic="true" tabindex="-1"><div class="estado" id="estado"></div><div class="comparacion"><span class="valor" id="original"></span><span class="igual">=</span><span class="valor convertido" id="convertido"></span></div><div class="explicacion"><h3>¿Cómo se realizó la conversión?</h3><code class="formula" id="formula"></code><p class="calculo" id="calculo"></p></div></section>
+    <p class="nota"><strong>Recuerda:</strong> el cero absoluto corresponde a −273,15 °C, −459,67 °F o 0 K. No existen temperaturas físicas inferiores a estos valores.</p>
+  </section><footer class="pie">Herramienta educativa ejecutada completamente en tu navegador.</footer>
+</div></main>
+<script>
+"use strict";
+const $=id=>document.getElementById(id), formulario=$("formulario"),campo=$("temperatura"),origen=$("origen"),destino=$("destino"),error=$("error"),textoError=$("textoError"),panel=$("resultado"),estado=$("estado"),original=$("original"),convertido=$("convertido"),formula=$("formula"),calculo=$("calculo");
+const unidades={celsius:{simbolo:"°C",minimo:-273.15},fahrenheit:{simbolo:"°F",minimo:-459.67},kelvin:{simbolo:"K",minimo:0}};
+const aCelsius=(v,u)=>({celsius:v,fahrenheit:(v-32)*5/9,kelvin:v-273.15})[u];
+const desdeCelsius=(v,u)=>({celsius:v,fahrenheit:v*9/5+32,kelvin:v+273.15})[u];
+const formato=n=>(Math.abs(n)<1e-9?0:n).toLocaleString("es-CO",{minimumFractionDigits:2,maximumFractionDigits:2});
+function ocultarError(){error.classList.remove("visible");campo.setAttribute("aria-invalid","false")}
+function mostrarError(m){textoError.textContent=m;error.classList.add("visible");campo.setAttribute("aria-invalid","true");panel.className="resultado";campo.focus()}
+function educativo(v,o,d){const x=formato(v),map={"celsius-fahrenheit":["°F = (°C × 9/5) + 32",`Multiplicamos ${x} por 9/5 y después sumamos 32.`],"celsius-kelvin":["K = °C + 273,15",`Sumamos 273,15 a ${x}.`],"fahrenheit-celsius":["°C = (°F − 32) × 5/9",`Restamos 32 a ${x} y multiplicamos por 5/9.`],"fahrenheit-kelvin":["K = (°F − 32) × 5/9 + 273,15",`Convertimos ${x} °F a Celsius y sumamos 273,15.`],"kelvin-celsius":["°C = K − 273,15",`Restamos 273,15 a ${x}.`],"kelvin-fahrenheit":["°F = (K − 273,15) × 9/5 + 32",`Convertimos ${x} K a Celsius, multiplicamos por 9/5 y sumamos 32.`]};return o===d?["Valor convertido = valor original","Las unidades son iguales, por lo que el valor no cambia."]:map[`${o}-${d}`]}
+function convertir(){ocultarError();const texto=campo.value.trim().replace(",",".");if(!texto)return mostrarError("Ingresa una temperatura antes de convertir.");if(!/^[+-]?(?:\d+\.?\d*|\.\d+)$/.test(texto))return mostrarError("Escribe únicamente un valor numérico válido, por ejemplo 25, -10 o 273,15.");const v=Number(texto),o=origen.value,d=destino.value;if(!Number.isFinite(v))return mostrarError("El valor ingresado no es válido.");if(v<unidades[o].minimo)return mostrarError(`La temperatura no puede ser inferior a ${formato(unidades[o].minimo)} ${unidades[o].simbolo}, porque representa el cero absoluto.`);const c=aCelsius(v,o),r=desdeCelsius(c,d),e=c<10?["frio","❄️ Temperatura fría"]:c<=30?["templado","🌿 Temperatura templada"]:["caliente","🔥 Temperatura caliente"],edu=educativo(v,o,d);panel.className=`resultado visible ${e[0]}`;estado.textContent=e[1];original.textContent=`${formato(v)} ${unidades[o].simbolo}`;convertido.textContent=`${formato(r)} ${unidades[d].simbolo}`;formula.textContent=edu[0];calculo.textContent=edu[1];panel.focus({preventScroll:true})}
+formulario.addEventListener("submit",e=>{e.preventDefault();convertir()});
+$("intercambiar").addEventListener("click",()=>{[origen.value,destino.value]=[destino.value,origen.value];if(campo.value.trim())convertir()});
+$("limpiar").addEventListener("click",()=>{formulario.reset();origen.value="celsius";destino.value="fahrenheit";ocultarError();panel.className="resultado";campo.focus()});
+document.querySelectorAll(".ejemplo").forEach(b=>b.addEventListener("click",()=>{campo.value=b.dataset.valor;origen.value=b.dataset.unidad;destino.value=b.dataset.unidad==="kelvin"?"celsius":"fahrenheit";convertir()}));
+campo.addEventListener("input",ocultarError);origen.addEventListener("change",()=>campo.value.trim()&&convertir());destino.addEventListener("change",()=>campo.value.trim()&&convertir());
+</script>
 </body>
 </html>
